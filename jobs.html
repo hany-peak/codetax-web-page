@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>채용공고 · 코드세무회계</title>
+<meta name="description" content="코드세무회계와 함께할 인재를 찾습니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #191f28;
+    --ink-secondary: #333d4b;
+    --ink-tertiary: #6b7684;
+    --ink-muted: #8b95a1;
+    --surface: #ffffff;
+    --surface-alt: #f9fafb;
+    --surface-gray: #f2f4f6;
+    --border: #e5e8eb;
+    --green: #0A7C55;
+    --green-light: #e8faf1;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; word-break: keep-all; }
+
+  body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--green);
+    text-decoration: none;
+    letter-spacing: -0.03em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.active { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink);
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 0.85rem !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--ink-secondary) !important; }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+  .nav-toggle svg { width: 22px; height: 22px; stroke: var(--ink); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 40px 0;
+  }
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .page-desc {
+    font-size: 1.05rem;
+    color: var(--ink-tertiary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  /* ── CULTURE BANNER ── */
+  .culture-banner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 40px 0;
+  }
+  .culture-card {
+    background: #1a1d23;
+    border-radius: 20px;
+    padding: 48px;
+    color: #fff;
+    display: flex;
+    gap: 48px;
+    align-items: center;
+  }
+  .culture-text { flex: 1; }
+  .culture-text h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .culture-text p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+  }
+  .culture-values {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .culture-chip {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+  }
+
+  /* ── JOB LIST ── */
+  .jobs-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 40px 120px;
+  }
+  .jobs-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink-tertiary);
+    margin-bottom: 20px;
+  }
+  .job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .job-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+  }
+  .job-card:hover {
+    border-color: var(--green);
+    box-shadow: 0 4px 20px rgba(10,124,85,0.06);
+    transform: translateY(-2px);
+  }
+  .job-info { flex: 1; }
+  .job-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .job-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .job-tag {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--surface-gray);
+    color: var(--ink-tertiary);
+  }
+  .job-tag.highlight {
+    background: var(--green-light);
+    color: var(--green);
+  }
+  .job-arrow {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .job-card:hover .job-arrow {
+    background: var(--green-light);
+  }
+  .job-arrow svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--ink-tertiary);
+    transition: stroke 0.2s;
+  }
+  .job-card:hover .job-arrow svg {
+    stroke: var(--green);
+  }
+
+  /* closed job */
+  .job-card.closed {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .job-card.closed .job-title::after {
+    content: ' (마감)';
+    color: var(--ink-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  /* empty state */
+  .jobs-empty {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--ink-muted);
+    font-size: 1rem;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 40px 64px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+  }
+  .footer-brand {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+  .footer-info {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.9;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--ink-tertiary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--ink); }
+
+  /* ── FLOATING ── */
+  .floating-btns {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 90;
+    display: flex;
+    gap: 10px;
+  }
+  .float-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 22px;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+  .float-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  }
+  .float-kakao { background: #FEE500; color: #191919; }
+  .float-naver { background: #03C75A; color: #fff; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .culture-card { flex-direction: column; gap: 24px; padding: 36px; }
+    .page-header { padding: 48px 24px 0; }
+    .culture-banner { padding: 32px 24px 0; }
+    .jobs-section { padding: 40px 24px 100px; }
+    .page-title { font-size: 2rem; }
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      left: 0; right: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      padding: 20px 24px 28px;
+      gap: 14px;
+    }
+    .nav-toggle { display: block; }
+    .nav-inner { padding: 0 20px; }
+    .page-header { padding: 36px 20px 0; }
+    .page-title { font-size: 1.65rem; }
+    .culture-banner { padding: 24px 20px 0; }
+    .culture-card { padding: 28px 24px; }
+    .culture-text h2 { font-size: 1.25rem; }
+    .jobs-section { padding: 32px 20px 80px; }
+    .job-card { padding: 20px 24px; flex-wrap: wrap; }
+    .job-title { font-size: 1.05rem; }
+    .footer { padding: 32px 20px 48px; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="./main.html" class="nav-logo">코드세무회계</a>
+    <button class="nav-toggle" aria-label="메뉴" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="./main.html#services">서비스</a></li>
+      <li><a href="./main.html#why">소개</a></li>
+      <li><a href="./main.html#reviews">후기</a></li>
+      <li><a href="./feed.html">피드</a></li>
+      <li><a href="./jobs.html" class="active">채용</a></li>
+      <li><a href="./main.html#contact" class="nav-cta">상담 신청</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══ PAGE HEADER ═══ -->
+<header class="page-header">
+  <h1 class="page-title">채용공고</h1>
+  <p class="page-desc">코드세무회계와 함께 세무의 새로운 기준을 만들어갈 인재를 찾습니다.</p>
+</header>
+
+<!-- ═══ CULTURE BANNER ═══ -->
+<section class="culture-banner">
+  <div class="culture-card">
+    <div class="culture-text">
+      <h2>세무 IT 스타트업이라고 생각하고 지원해주세요.</h2>
+      <p>코드 세무회계는 AI 기술로 세무 업무를 재정의하고 있습니다. Jeeves를 비롯한 자체 AI 세무 도구를 실제 업무에 활용하며, 단순 반복 업무는 자동화하고 고객과의 소통에 집중합니다.</p>
+      <div class="culture-values">
+        <span class="culture-chip">AI 세무 자동화</span>
+        <span class="culture-chip">재택 주 3~4일</span>
+        <span class="culture-chip">유연근무제</span>
+        <span class="culture-chip">성과 보상</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ JOB LIST ═══ -->
+<section class="jobs-section">
+  <p class="jobs-section-title">채용 중인 포지션</p>
+  <div class="job-list">
+
+    <a href="./job-detail.html" class="job-card">
+      <div class="job-info">
+        <h3 class="job-title">세무 경력직 (2년차 이상)</h3>
+        <div class="job-tags">
+          <span class="job-tag highlight">채용 중</span>
+          <span class="job-tag">정규직</span>
+          <span class="job-tag">재택 주 3~4일</span>
+          <span class="job-tag">강남/미사</span>
+        </div>
+      </div>
+      <div class="job-arrow">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </a>
+
+    <a href="#" class="job-card closed">
+      <div class="job-info">
+        <h3 class="job-title">세무 직원 (신규)</h3>
+        <div class="job-tags">
+          <span class="job-tag">정규직</span>
+          <span class="job-tag">재택 가능</span>
+          <span class="job-tag">강남</span>
+        </div>
+      </div>
+      <div class="job-arrow">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </a>
+
+    <a href="#" class="job-card closed">
+      <div class="job-info">
+        <h3 class="job-title">고객지원 매니저</h3>
+        <div class="job-tags">
+          <span class="job-tag">계약직</span>
+          <span class="job-tag">재택 가능</span>
+          <span class="job-tag">강남</span>
+        </div>
+      </div>
+      <div class="job-arrow">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══ FLOATING ═══ -->
+<div class="floating-btns">
+  <a href="#" class="float-btn float-kakao">카톡 상담</a>
+  <a href="#" class="float-btn float-naver">네이버 톡톡 상담</a>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div>
+    <div class="footer-brand">코드세무회계</div>
+    <div class="footer-info">
+      대표 세무사: 정주희 | 사업자등록번호: 306-29-93669<br>
+      서울특별시 강남구 테헤란로1길 28-11, 4층 4035호<br>
+      이메일: help@codetax.co.kr
+    </div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#">개인정보처리방침</a></li>
+    <li><a href="#">이용약관</a></li>
+    <li><a href="./main.html">홈</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>

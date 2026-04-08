@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로딩 중... · 코드세무회계 피드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #191f28;
+    --ink-secondary: #333d4b;
+    --ink-tertiary: #6b7684;
+    --ink-muted: #8b95a1;
+    --surface: #ffffff;
+    --surface-gray: #f2f4f6;
+    --border: #e5e8eb;
+    --green: #0A7C55;
+    --green-light: #e8faf1;
+  }
+
+  html { font-size: 16px; word-break: keep-all; }
+
+  body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--green);
+    text-decoration: none;
+    letter-spacing: -0.03em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.active { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink);
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 0.85rem !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--ink-secondary) !important; }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+  .nav-toggle svg { width: 22px; height: 22px; stroke: var(--ink); }
+
+  /* ── HERO IMAGE ── */
+  .post-hero {
+    width: 100%;
+    max-height: 480px;
+    overflow: hidden;
+  }
+  .post-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── ARTICLE ── */
+  .post-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 120px;
+  }
+  .post-tag {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 16px;
+  }
+  .post-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .post-meta {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── ARTICLE BODY ── */
+  .post-body h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+  .post-body p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--ink-secondary);
+    margin-bottom: 20px;
+  }
+  .post-body strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  /* ── BACK LINK ── */
+  .post-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 48px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    background: var(--surface-gray);
+    color: var(--ink-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  .post-back:hover { background: var(--border); }
+  .post-back svg { width: 16px; height: 16px; }
+
+  /* ── FLOATING ── */
+  .floating-btns {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 90;
+    display: flex;
+    gap: 10px;
+  }
+  .float-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 22px;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+  .float-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  }
+  .float-kakao { background: #FEE500; color: #191919; }
+  .float-naver { background: #03C75A; color: #fff; }
+
+  /* ── FOOTER ── */
+  .footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 40px 64px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+  }
+  .footer-brand {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+  .footer-info {
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.9;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--ink-tertiary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--ink); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      left: 0; right: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      padding: 20px 24px 28px;
+      gap: 14px;
+    }
+    .nav-toggle { display: block; }
+    .nav-inner { padding: 0 20px; }
+    .post-title { font-size: 1.65rem; }
+    .post-body h2 { font-size: 1.2rem; }
+    .post-body p { font-size: 1rem; }
+    .post-hero { max-height: 280px; }
+    .footer { padding: 32px 20px 48px; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="./main.html" class="nav-logo">코드세무회계</a>
+    <button class="nav-toggle" aria-label="메뉴" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="./main.html#services">서비스</a></li>
+      <li><a href="./main.html#why">소개</a></li>
+      <li><a href="./main.html#reviews">후기</a></li>
+      <li><a href="./feed.html" class="active">피드</a></li>
+      <li><a href="./jobs.html">채용</a></li>
+      <li><a href="./main.html#contact" class="nav-cta">상담 신청</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══ HERO IMAGE ═══ -->
+<div class="post-hero" id="post-hero"></div>
+
+<!-- ═══ ARTICLE ═══ -->
+<article class="post-wrap">
+  <span class="post-tag" id="post-tag"></span>
+  <h1 class="post-title" id="post-title"></h1>
+  <p class="post-meta" id="post-meta"></p>
+  <div class="post-body" id="post-body"></div>
+  <a href="./feed.html" class="post-back">
+    <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    피드 목록으로
+  </a>
+</article>
+
+<!-- ═══ FLOATING ═══ -->
+<div class="floating-btns">
+  <a href="#" class="float-btn float-kakao">카톡 상담</a>
+  <a href="#" class="float-btn float-naver">네이버 톡톡 상담</a>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div>
+    <div class="footer-brand">코드세무회계</div>
+    <div class="footer-info">
+      대표 세무사: 정주희 | 사업자등록번호: 306-29-93669<br>
+      서울특별시 강남구 테헤란로1길 28-11, 4층 4035호<br>
+      이메일: help@codetax.co.kr
+    </div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#">개인정보처리방침</a></li>
+    <li><a href="#">이용약관</a></li>
+    <li><a href="./jobs.html">채용공고</a></li>
+  </ul>
+</footer>
+
+<script>
+const id = new URLSearchParams(window.location.search).get('id');
+
+fetch(new URL('posts.json', window.location.href.split('?')[0]).href)
+  .then(r => r.json())
+  .then(data => {
+    // featured + posts 합쳐서 id로 찾기
+    const all = [data.featured, ...data.posts];
+    const post = all.find(p => p.id === id);
+
+    if (!post) {
+      document.getElementById('post-title').textContent = '글을 찾을 수 없습니다';
+      document.getElementById('post-body').innerHTML = '<p><a href="./feed.html">피드 목록으로 돌아가기</a></p>';
+      return;
+    }
+
+    // 페이지 타이틀
+    document.title = post.title + ' · 코드세무회계 피드';
+
+    // 렌더링
+    document.getElementById('post-hero').innerHTML = `<img src="${post.image}" alt="">`;
+    document.getElementById('post-tag').textContent = post.categoryLabel;
+    document.getElementById('post-title').textContent = post.title;
+    document.getElementById('post-meta').textContent = `${post.date} · ${post.readTime} 읽기`;
+    document.getElementById('post-body').innerHTML = post.body;
+  });
+</script>
+
+</body>
+</html>
