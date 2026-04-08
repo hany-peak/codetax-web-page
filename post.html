@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>로딩 중... · 코드세무회계 피드</title>
+<meta name="description" content="코드세무회계 피드 - 세무, 절세, 사업 운영 콘텐츠">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="코드세무회계">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -332,6 +337,21 @@ fetch(new URL('posts.json', window.location.href.split('?')[0]).href)
 
     // 페이지 타이틀
     document.title = post.title + ' · 코드세무회계 피드';
+    document.querySelector('meta[name="description"]').content = post.desc;
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', post.title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', post.desc);
+
+    // Add dynamic OG tags
+    const head = document.head;
+    const setMeta = (prop, val) => {
+      let el = document.querySelector(`meta[property="${prop}"]`);
+      if (!el) { el = document.createElement('meta'); el.setAttribute('property', prop); head.appendChild(el); }
+      el.setAttribute('content', val);
+    };
+    setMeta('og:title', post.title + ' · 코드세무회계');
+    setMeta('og:description', post.desc);
+    setMeta('og:image', post.image);
+    setMeta('og:url', window.location.href);
 
     // 렌더링
     document.getElementById('post-hero').innerHTML = `<img src="${post.image}" alt="">`;
