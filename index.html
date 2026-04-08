@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>채용공고 · 코드 세무회계 본점</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #0A7C55;
+    --green-light: #E6F5EF;
+    --green-mid: #1D9E75;
+    --green-dark: #064D35;
+    --ink: #111210;
+    --ink-soft: #3A3D38;
+    --ink-muted: #7A7D77;
+    --surface: #F8F7F4;
+    --surface-2: #EFEDE8;
+    --border: #DDD9D2;
+    --white: #FFFFFF;
+    --accent: #C8F0DC;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .company-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    background: var(--green-light);
+    border: 1px solid #A8DFC3;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+
+  .company-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green-mid);
+  }
+
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+
+  .header-title em {
+    font-style: italic;
+    color: var(--green);
+  }
+
+  .header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 18px;
+  }
+
+  .meta-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .meta-chip svg { color: var(--green-mid); flex-shrink: 0; }
+
+  .apply-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green);
+    color: var(--white);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+
+  .apply-btn:hover { background: var(--green-dark); }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section:nth-child(2) { animation-delay: 0.08s; }
+  .section:nth-child(3) { animation-delay: 0.14s; }
+  .section:nth-child(4) { animation-delay: 0.18s; }
+  .section:nth-child(5) { animation-delay: 0.22s; }
+  .section:nth-child(6) { animation-delay: 0.26s; }
+  .section:nth-child(7) { animation-delay: 0.30s; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── COMPANY INTRO ── */
+  .intro-box {
+    background: var(--green-dark);
+    color: var(--white);
+    border-radius: 14px;
+    padding: 32px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .intro-box::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .intro-box::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .intro-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: #A8DFC3;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  .intro-body {
+    font-size: 14px;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.85;
+    margin-bottom: 24px;
+  }
+
+  .award-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .award-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .award-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #5DCAA5;
+    min-width: 36px;
+  }
+
+  .award-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #5DCAA5;
+    flex-shrink: 0;
+  }
+
+  /* ── TWO COLUMN ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 580px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+  }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--surface-2);
+    font-size: 13.5px;
+  }
+
+  .info-row:last-child { border-bottom: none; }
+  .info-key { color: var(--ink-muted); flex-shrink: 0; }
+  .info-val { font-weight: 500; color: var(--ink); text-align: right; }
+
+  /* ── JD ── */
+  .jd-group {
+    margin-bottom: 20px;
+  }
+
+  .jd-group-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green-dark);
+    background: var(--green-light);
+    border-left: 3px solid var(--green-mid);
+    padding: 6px 12px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 10px;
+  }
+
+  .jd-list {
+    list-style: none;
+    padding-left: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .jd-list li {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.65;
+  }
+
+  .jd-list li::before {
+    content: '—';
+    color: var(--ink-muted);
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 12px;
+  }
+
+  .jd-notice {
+    background: #FFF8EC;
+    border: 1px solid #F5D98A;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    color: #7A5C00;
+    line-height: 1.65;
+    margin-top: 16px;
+  }
+
+  /* ── TALENT ── */
+  .talent-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 580px) {
+    .talent-grid { grid-template-columns: 1fr; }
+  }
+
+  .talent-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .talent-card:hover {
+    border-color: #A8DFC3;
+    transform: translateY(-2px);
+  }
+
+  .talent-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--green-mid);
+    border-radius: 12px 0 0 12px;
+  }
+
+  .talent-kw {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+  }
+
+  .talent-desc {
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    line-height: 1.7;
+  }
+
+  /* ── WELFARE ── */
+  .welfare-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .welfare-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    transition: border-color 0.2s;
+  }
+
+  .welfare-item:hover { border-color: #A8DFC3; }
+
+  .welfare-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--green-mid);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  .welfare-content { flex: 1; }
+
+  .welfare-title {
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .welfare-desc {
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    line-height: 1.65;
+  }
+
+  /* ── COMP ── */
+  .comp-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 28px;
+  }
+
+  .comp-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--surface-2);
+    font-size: 14px;
+  }
+
+  .comp-row:last-child { border-bottom: none; }
+  .comp-key { color: var(--ink-muted); }
+  .comp-val { font-weight: 500; color: var(--ink); }
+  .comp-val.highlight { color: var(--green); font-size: 15px; }
+
+  /* ── APPLY ── */
+  .apply-box {
+    background: var(--green-dark);
+    border-radius: 14px;
+    padding: 32px 36px;
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .apply-left {}
+  .apply-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: #A8DFC3;
+    margin-bottom: 8px;
+  }
+
+  .apply-info {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+  }
+
+  .apply-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green-mid);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 13px 26px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .apply-email:hover { background: #0F6E56; }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  .footer-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-dark);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── ANIMATION ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TAG CHIP ── */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--accent);
+    color: var(--green-dark);
+    border: 1px solid #A8DFC3;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <div class="company-tag">코드 세무회계 본점</div>
+        <h1 class="header-title">세무 <em>경력직</em> 채용<br>— 2년차 이상</h1>
+        <div class="header-meta">
+          <span class="meta-chip">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6c0 3.75 4.5 8.5 4.5 8.5S12.5 9.75 12.5 6c0-2.5-2-4.5-4.5-4.5z"/><circle cx="8" cy="6" r="1.5"/></svg>
+            재택 주 3~4일
+          </span>
+          <span class="meta-chip">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 2v2M11 2v2M2 7h12"/></svg>
+            채용 시 마감
+          </span>
+          <span class="meta-chip">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5l2 1.5"/></svg>
+            정규직 · 수습 2개월
+          </span>
+        </div>
+      </div>
+      <a href="mailto:help@codetax.co.kr" class="apply-btn">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l6 4.5L14 4"/><rect x="2" y="3" width="12" height="10" rx="1.5"/></svg>
+        지원하기
+      </a>
+    </div>
+  </header>
+
+  <!-- COMPANY INTRO -->
+  <section class="section">
+    <div class="section-label">Company</div>
+    <div class="intro-box">
+      <p class="intro-headline">세무 IT 스타트업이라고 생각하고 지원해주세요.</p>
+      <p class="intro-body">
+        코드 세무회계는 AI 기술로 세무 업무를 재정의하고 있습니다.<br>
+        Jeeves를 비롯한 자체 AI 세무 도구를 실제 업무에 활용합니다.<br>
+        백오피스에서 일어나는 단순 반복적인 업무는 모두 자동화되도록 개발하고 있으며,<br>
+        사업장 대표님과 관련된 소통 업무는 모두 정성껏 직접 합니다.<br><br>
+        <strong style="color:#A8DFC3;">단순 반복적인 많은 업무가 자동화되는 만큼, 사업장 대표님과의 소통에<br>더 빠른 피드백과 양질의 서비스를 제공하는 것에 집중해주세요.</strong><br><br>
+        이번 직무는 <strong style="color:#A8DFC3;">세무 업무 외에도 고객지원·경영지원 등 다양한 직무를 병행</strong>합니다.<br>
+        해당 내용이 숙달되면 세무 업무만 중점적으로 하게 될 예정입니다.
+      </p>
+      <div class="award-list">
+        <div style="font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 8px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em;">업력</div>
+        <div class="award-item">
+          <span class="award-year">2024</span>
+          <span class="award-dot"></span>
+          <span>AI세무 IT 예비창업패키지 선정 및 수료</span>
+        </div>
+        <div class="award-item">
+          <span class="award-year">2025</span>
+          <span class="award-dot"></span>
+          <span>국제 발명 전시회 AI 세금 환급 프로그램 은상 수상</span>
+        </div>
+        <div class="award-item">
+          <span class="award-year">2026</span>
+          <span class="award-dot"></span>
+          <span>세무자동화 프로그램 Jeeves 출시 완료</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 지원자격 / 근무조건 -->
+  <section class="section">
+    <div class="section-label">Qualification &amp; Conditions</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-label">지원 자격</div>
+        <div class="info-row"><span class="info-key">학력</span><span class="info-val">무관</span></div>
+        <div class="info-row"><span class="info-key">경력</span><span class="info-val">세무·회계 2년 이상</span></div>
+        <div class="info-row"><span class="info-key">자격증</span><span class="info-val">무관 (우대)</span></div>
+        <div class="info-row"><span class="info-key">기타</span><span class="info-val">자기 주도 업무 가능자</span></div>
+      </div>
+      <div class="card">
+        <div class="card-label">근무 조건</div>
+        <div class="info-row"><span class="info-key">고용 형태</span><span class="info-val">정규직</span></div>
+        <div class="info-row"><span class="info-key">수습</span><span class="info-val">2개월</span></div>
+        <div class="info-row"><span class="info-key">코어 근무</span><span class="info-val">12:00 ~ 18:00</span></div>
+        <div class="info-row"><span class="info-key">직원용 사무실</span><span class="info-val">하남 미사</span></div>
+        <div class="info-row"><span class="info-key">사업자 대표 응대 사무실</span><span class="info-val">강남</span></div>
+        <div class="info-row"><span class="info-key">재택 근무</span><span class="info-val">주 3~4일</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 담당 업무 -->
+  <section class="section">
+    <div class="section-label">Job Description</div>
+    <div class="card" style="padding: 24px 26px;">
+      <div class="jd-group">
+        <div class="jd-group-title">세무 업무</div>
+        <ul class="jd-list">
+          <li>법인 및 개인사업자 기장 보조</li>
+          <li>부가세·소득세 등 세금 신고 보조</li>
+          <li>세무 관련 서류 정리 및 데이터 입력</li>
+        </ul>
+      </div>
+      <div class="jd-group">
+        <div class="jd-group-title">고객 지원</div>
+        <ul class="jd-list">
+          <li>사업장 대표님 문의 응대 (전화·메시지)</li>
+          <li>신규 고객 온보딩 서류 안내</li>
+        </ul>
+      </div>
+      <div class="jd-group">
+        <div class="jd-group-title">경영 지원</div>
+        <ul class="jd-list">
+          <li>내부 일정 조율 및 업무 자료 정리</li>
+          <li>기타 사무 지원 업무</li>
+        </ul>
+      </div>
+      <div class="jd-notice">
+        ⚠ 이번 채용은 5년차 과장 직속 포지션으로, 세무 업무 외에 고객지원·경영지원 업무를 함께 담당합니다.<br>
+        다양한 실무 경험을 원하시는 분께 적합하며, 지원 전 반드시 참고해주세요.
+      </div>
+    </div>
+  </section>
+
+  <!-- 보상 -->
+  <section class="section">
+    <div class="section-label">Compensation</div>
+    <div class="comp-box">
+      <div class="comp-row">
+        <span class="comp-key">기본 연봉</span>
+        <span class="comp-val highlight">경력에 따라 협의</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-key">고정 상여</span>
+        <span class="comp-val">연 2회</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-key">성과 상여</span>
+        <span class="comp-val">6개월마다 Peer-Review 기반 추가 지급</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-key">평가 방식</span>
+        <span class="comp-val">동료 평가 + 상향 평가 + 하향 평가 종합</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-key">식대</span>
+        <span class="comp-val">15,000원 / 커피값 별도 지원</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-key">야근 식대</span>
+        <span class="comp-val">2시간 이상 야근 시 지원</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 복지 -->
+  <section class="section">
+    <div class="section-label">Benefits</div>
+    <div class="welfare-list">
+      <div class="welfare-item">
+        <div class="welfare-num">1</div>
+        <div class="welfare-content">
+          <div class="welfare-title">유연 근무제</div>
+          <div class="welfare-desc">비시즌에는 코어 시간(12~18시) 외 출퇴근을 자유롭게 설정할 수 있습니다.</div>
+        </div>
+      </div>
+      <div class="welfare-item">
+        <div class="welfare-num">2</div>
+        <div class="welfare-content">
+          <div class="welfare-title">재택 근무</div>
+          <div class="welfare-desc">주 1~2회 사무실 출근, 나머지는 재택 근무입니다.<br>
+          <span style="color:#B07A00; font-size:12px;">※ 최초 온보딩 2주간은 사무실 출근으로 진행됩니다.</span></div>
+        </div>
+      </div>
+      <div class="welfare-item">
+        <div class="welfare-num">3</div>
+        <div class="welfare-content">
+          <div class="welfare-title">고정 상여 + 성과 상여</div>
+          <div class="welfare-desc">연 2회 고정 상여 외, 반기 Peer-Review 결과에 따라 추가 성과 상여가 지급됩니다.</div>
+        </div>
+      </div>
+      <div class="welfare-item">
+        <div class="welfare-num">4</div>
+        <div class="welfare-content">
+          <div class="welfare-title">식대 지원</div>
+          <div class="welfare-desc">일 15,000원 식대 및 커피값 별도 지원. 야근 2시간 이상 시 야근 식대 추가 지원.</div>
+        </div>
+      </div>
+      <div class="welfare-item">
+        <div class="welfare-num">5</div>
+        <div class="welfare-content">
+          <div class="welfare-title">포상 휴가</div>
+          <div class="welfare-desc">바쁜 시즌이 끝난 후 연차와 별개로 포상 휴가가 제공됩니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 인재상 -->
+  <section class="section">
+    <div class="section-label">Culture</div>
+    <div class="talent-grid">
+      <div class="talent-card">
+        <div class="talent-kw">따뜻한 커뮤니케이션</div>
+        <div class="talent-desc">팀워크에서 배려 있는 언행은 기본입니다. 함께 일하는 동료를 존중합니다.</div>
+      </div>
+      <div class="talent-card">
+        <div class="talent-kw">빠른 커뮤니케이션</div>
+        <div class="talent-desc">고객 대표님께 빠른 응답과 신속한 처리가 신뢰의 시작입니다.</div>
+      </div>
+      <div class="talent-card">
+        <div class="talent-kw">성장하는 마음</div>
+        <div class="talent-desc">세무는 끊임없이 공부해야 하는 분야입니다. 배움을 즐기는 분을 환영합니다.</div>
+      </div>
+      <div class="talent-card">
+        <div class="talent-kw">프로의 마음</div>
+        <div class="talent-desc">자유로운 환경은 각자의 확실한 책임감 위에서 유지됩니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 지원 -->
+  <section class="section">
+    <div class="section-label">Apply</div>
+    <div class="apply-box">
+      <div class="apply-left">
+        <div class="apply-title">함께 일해요</div>
+        <div class="apply-info">
+          이력서 + 경력기술서를 자유 양식으로 첨부해 이메일로 보내주세요.<br>
+          서류 검토 후 합격자에 한해 개별 연락드립니다.<br>
+          <span style="color:#5DCAA5; margin-top: 6px; display:block;">help@codetax.co.kr</span>
+        </div>
+      </div>
+      <a href="mailto:help@codetax.co.kr" class="apply-email">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l6 4.5L14 4"/><rect x="2" y="3" width="12" height="10" rx="1.5"/></svg>
+        이메일로 지원
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer-logo">CODE TAX · 코드 세무회계 본점</span>
+    <span>help@codetax.co.kr</span>
+  </footer>
+
+</div>
+</body>
+</html>
